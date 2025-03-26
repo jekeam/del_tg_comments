@@ -1,0 +1,13 @@
+[Unit]
+Description=bot delete comments telegram
+After=multi-user.target
+
+[Service]
+User=sava
+Type=idle
+WorkingDirectory=/home/sava/del_tg_comments
+ExecStart=/home/sava/del_tg_comments/venv/bin/python /home/sava/del_tg_comments/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

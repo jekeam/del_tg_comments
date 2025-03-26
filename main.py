@@ -4,11 +4,13 @@ import traceback
 from time import sleep
 
 from pyrogram import Client
-from pyrogram.enums import ChatType, MessageServiceType
+from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait
 
 from config import API_ID, API_HASH, CHAT_ID_EXCLUDE, TIME_SLEEP_SEC
 from log import app_log
+
+DIALOGS = []
 
 
 async def delete_all_messages():
@@ -18,19 +20,19 @@ async def delete_all_messages():
         me = await app.get_me()
         my_id = me.id
 
-        dialogs = []
         async for dialog in app.get_dialogs():
-            sleep(1)
-            chat = await app.get_chat(dialog.chat.id)
+            if dialog.chat.id not in DIALOGS:
+                sleep(1)
+                chat = await app.get_chat(dialog.chat.id)
 
-            if chat.linked_chat:
-                dialogs.append(chat.linked_chat.id)
-                app_log.info(f"add link: {chat.linked_chat.id}")
-            if chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]:
-                dialogs.append(chat.id)
-                app_log.info(f"add chat: {chat.id}")
+                if chat.linked_chat:
+                    DIALOGS.append(chat.linked_chat.id)
+                    app_log.info(f"add link: {chat.linked_chat.id}")
+                if chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]:
+                    DIALOGS.append(chat.id)
+                    app_log.info(f"add chat: {chat.id}")
 
-        for chat_id in dialogs:
+        for chat_id in DIALOGS:
             try:
                 sleep(1)
                 chat = await app.get_chat(chat_id)

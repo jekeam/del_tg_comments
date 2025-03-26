@@ -1,4 +1,5 @@
 import asyncio
+import time
 import traceback
 from time import sleep
 
@@ -6,7 +7,7 @@ from pyrogram import Client
 from pyrogram.enums import ChatType, MessageServiceType
 from pyrogram.errors import FloodWait
 
-from config import API_ID, API_HASH, CHAT_ID_EXCLUDE
+from config import API_ID, API_HASH, CHAT_ID_EXCLUDE, TIME_SLEEP_SEC
 from log import app_log
 
 
@@ -78,4 +79,7 @@ async def delete_all_messages():
 
 
 if __name__ == "__main__":
-    asyncio.run(delete_all_messages())
+    while True:
+        asyncio.run(delete_all_messages())
+        app_log.info(f"I sleep hours: {TIME_SLEEP_SEC / 60 / 60}")
+        time.sleep(TIME_SLEEP_SEC)

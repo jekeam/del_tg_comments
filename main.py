@@ -58,7 +58,7 @@ async def delete_all_messages():
 
                 async for msg in app.search_messages(chat.id, from_user=my_id):
                     try:
-                        if msg.service == MessageServiceType.NEW_CHAT_MEMBERS:
+                        if msg.service:
                             app_log.info(f"Сервисное сообщение пропущено {chat.id}: {msg.id}")
                             continue
 

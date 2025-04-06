@@ -5,7 +5,7 @@ from time import sleep
 
 from pyrogram import Client
 from pyrogram.enums import ChatType
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, NotAcceptable
 
 from config import API_ID, API_HASH, CHAT_ID_EXCLUDE, TIME_SLEEP_SEC
 from log import app_log
@@ -73,6 +73,10 @@ async def delete_all_messages():
             except FloodWait as flood_wait:
                 app_log.error(f"FloodWait! Спим {flood_wait.value} секунд...")
                 sleep(flood_wait.value)
+
+            except NotAcceptable:
+                app_log.error(f"NotAcceptable! Удалям ид из списка обхода: {chat_id}")
+                DIALOGS.pop(DIALOGS.index(chat_id))
 
             except Exception as e:
                 app_log.error(f"Ошибка при обработке чата {chat_id}: {e}, {traceback.format_exc()}")

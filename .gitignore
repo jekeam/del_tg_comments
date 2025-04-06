@@ -1,3 +1,6 @@
 /config.py
 /.venv/
 /.idea
+*.pyc
+/logs
+*.session

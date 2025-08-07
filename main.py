@@ -43,6 +43,9 @@ async def delete_all_messages():
                 if chat_id > 0 or chat_id in CHAT_ID_EXCLUDE:
                     continue
 
+                if any(str(s).lower() in str(chat.title).lower() for s in CHAT_ID_EXCLUDE):
+                    continue
+
                 if chat.is_creator:
                     # app_log.info(f"Пропускаем свой чат: {chat.title or chat.id}")
                     continue

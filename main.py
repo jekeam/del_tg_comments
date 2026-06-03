@@ -14,7 +14,13 @@ DIALOGS = []
 
 
 async def delete_all_messages():
-    async with Client("deleter", API_ID, API_HASH) as app:
+    proxy_settings = {
+        "scheme": "socks5",  # или "http"
+        "hostname": "127.0.0.1", # или адрес вашего прокси сервера
+        "port": 1080
+    }
+
+    async with Client("deleter", API_ID, API_HASH, proxy=proxy_settings) as app:
         app_log.info("Подключение к Telegram...")
 
         me = await app.get_me()

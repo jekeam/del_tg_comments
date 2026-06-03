@@ -12,6 +12,11 @@ from log import app_log
 
 DIALOGS = []
 
+proxy_settings = {
+    "scheme": "socks5",  # или "http"
+    "hostname": "127.0.0.1",  # или адрес вашего прокси сервера
+    "port": 1080
+}
 
 def format_message_user(msg):
     if not msg:
@@ -60,7 +65,7 @@ async def get_replied_message_safe(app, chat_id, reply_to_message_id):
 
 
 async def delete_all_messages():
-    async with Client("deleter", API_ID, API_HASH) as app:
+    async with Client("deleter", API_ID, API_HASH, proxy=proxy_settings) as app:
         app_log.info("Подключение к Telegram...")
 
         me = await app.get_me()

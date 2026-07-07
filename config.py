@@ -19,4 +19,6 @@ CHAT_ID_EXCLUDE = [
     -1003453573713, # Meshtastic EKB underground
     -1005089696555, # Семья
     -1002324674984, # Никита Агатьев | Сообщество
+    "Bambulab",
+    "K3D",
 ]

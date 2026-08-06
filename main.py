@@ -16,8 +16,8 @@ DIALOGS = []
 async def delete_all_messages():
     proxy_settings = {
         "scheme": "socks5",  # или "http"
-        "hostname": "127.0.0.1", # или адрес вашего прокси сервера
-        "port": 1080
+        "hostname": "127.0.0.1",  # или адрес вашего прокси сервера
+        "port": 1080,
     }
 
     async with Client("deleter", API_ID, API_HASH, proxy=proxy_settings) as app:
@@ -47,6 +47,12 @@ async def delete_all_messages():
                     continue
 
                 if chat_id > 0 or chat_id in CHAT_ID_EXCLUDE:
+                    continue
+
+                if chat_id < 0 and any(
+                    str(ch_e).removeprefix("-100").removeprefix("-") == str(chat_id).removeprefix("-100").removeprefix("-")
+                    for ch_e in CHAT_ID_EXCLUDE
+                ):
                     continue
 
                 if any(str(s).lower() in str(chat.title).lower() for s in CHAT_ID_EXCLUDE):
